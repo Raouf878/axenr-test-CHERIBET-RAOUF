@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models https://axelor.com/xml/ns/domain-models/domain-models_7.4.xsd">
+
+  <module name="axenr" package="fr.axenr.apps.db"/>
+
+  <entity name="Task">
+    <string name="name"/>
+    <decimal name="duration"/>
+    <decimal name="delayToStart"/>
+    <date name="startDate"/>
+    <date name="endDate"/>
+    <one-to-one name="dependOf" ref="fr.axenr.apps.db.Task"/>
+    <many-to-one name="project" ref="fr.axenr.apps.db.Project"/>
+  </entity>
+
+</domain-models>

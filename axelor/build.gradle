@@ -1,0 +1,39 @@
+plugins {
+  id 'com.axelor.app'
+}
+
+axelor {
+  title "AxENR Technical Test"
+  description "ERP application"
+}
+
+allprojects {
+  apply plugin: 'idea'
+  apply plugin: 'eclipse'
+
+  group = 'fr.axenr.apps'
+  version = '1.0.0'
+
+  java {
+    toolchain {
+      languageVersion = JavaLanguageVersion.of(11)
+    }
+  }
+
+  afterEvaluate {
+    test {
+      useJUnitPlatform()
+      beforeTest { descriptor ->
+        logger.lifecycle('Running: ' + descriptor)
+      }
+    }
+  }
+}
+
+dependencies {
+  gradle.appModules.each { dir ->
+    implementation project(":modules:$dir.name")
+  }
+}
+
+apply from: 'gradle/style.gradle'

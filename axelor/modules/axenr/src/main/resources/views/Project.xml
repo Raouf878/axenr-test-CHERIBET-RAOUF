@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_7.4.xsd">
+
+  <grid name="project-grid" title="Projects" model="fr.axenr.apps.db.Project">
+    <field name="name"/>
+    <field name="startDate"/>
+    <field name="endDate"/>
+  </grid>
+
+  <form name="project-form" title="Project" model="fr.axenr.apps.db.Project">
+    <panel name="mainPanel">
+      <field name="name" colSpan="4"/>
+      <field name="startDate" colSpan="4"/>
+      <field name="endDate" colSpan="4"/>
+    </panel>
+    <panel-related field="taskList" colSpan="12" grid-view="task-grid"
+      form-view="task-form"/>
+    <panel title="Actions" sidebar="true" colSpan="1" cols="1">
+      <button name="computeDatesBtn" title="Compute dates"
+        onClick="save,action-project-compute-dates"/>
+    </panel>
+  </form>
+
+  <action-method name="action-project-compute-dates">
+    <call class="" method=""/> <!-- TODO -->
+  </action-method>
+
+  <menuitem name="menu-project-root" order="-100" title="Project management"
+    icon="list-task"/>
+  <menuitem name="menu-projects" title="Projects" order="-1000" parent="menu-project-root"
+    action="project.list"/>
+
+  <action-view name="project.list" title="All tasks" model="fr.axenr.apps.db.Project">
+    <view type="grid" name="project-grid"/>
+    <view type="form" name="project-form"/>
+  </action-view>
+
+</object-views>

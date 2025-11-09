@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models https://axelor.com/xml/ns/domain-models/domain-models_7.4.xsd">
+
+  <module name="axenr" package="fr.axenr.apps.db"/>
+
+  <entity name="Project">
+    <string name="name"/>
+    <date name="startDate"/>
+    <date name="endDate"/>
+    <one-to-many name="taskList" ref="fr.axenr.apps.db.Task" mappedBy="project"/>
+  </entity>
+
+</domain-models>

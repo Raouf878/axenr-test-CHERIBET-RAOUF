@@ -1,0 +1,15 @@
+plugins {
+  id 'com.axelor.app'
+}
+
+apply {
+  version = "1.0.0"
+}
+
+axelor {
+  title "Axenr"
+  description "Axenr Module"
+}
+
+dependencies {
+}

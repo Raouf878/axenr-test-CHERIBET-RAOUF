@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_7.4.xsd">
+
+  <grid name="task-grid" title="Tasks" model="fr.axenr.apps.db.Task" editable="true">
+    <field name="name"/>
+    <field name="duration"/>
+    <field name="delayToStart"/>
+    <field name="dependOf" domain="self.project = :project AND self.id != :id"/>
+    <field name="startDate" readonly="true"/>
+    <field name="endDate" readonly="true"/>
+    <field name="project" hidden="true"/>
+  </grid>
+
+  <form name="task-form" title="Task" model="fr.axenr.apps.db.Task">
+    <panel name="mainPanel">
+      <field name="name" colSpan="4"/>
+      <field name="duration" colSpan="4"/>
+      <field name="delayToStart" colSpan="4"/>
+      <field name="startDate" colSpan="4" readonly="true"/>
+      <field name="endDate" readonly="true"/>
+      <field name="dependOf" domain="self.project = :project AND self.id != :id"/>
+      <field name="project" hidden="true"/>
+    </panel>
+  </form>
+
+</object-views>
