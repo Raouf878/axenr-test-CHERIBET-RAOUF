@@ -55,11 +55,47 @@ Tu peux utiliser des schémas, du pseudocode ou des diagrammes si cela t’aide.
 
 #### ✍️ Section à compléter :
 
-```
 ## Partie 1 – Analyse et proposition de solution
 
-(Explique ici ta compréhension du problème, ta logique de calcul, ton approche technique, etc.)
-```
+ ### Compréhension du problème
+Le système doit calculer automatiquement les dates de début et de fin pour un ensemble de tâches liées à un projet photovoltaïque. Chaque tâche possède :
+
+- Une durée (nombre de jours ouvrables)
+- Un délai avant démarrage (nombre de jours d'attente après la fin de la tâche précédente)
+- Une dépendance optionnelle vers une autre tâche
+
+Le défi principal est de gérer correctement l'enchaînement des tâches en respectant les dépendances et les délais.
+Approche technique
+#### 1. Modèle de données
+Les entités principales sont :
+
+Project : contient une date de début globale et une liste de tâches
+Task : contient durée, délai avant démarrage, référence vers la tâche dépendante, dates calculées
+
+#### 2. Algorithme de calcul (approche topologique)
+Principe : Parcourir les tâches dans l'ordre de leurs dépendances (tri topologique) pour calculer les dates séquentiellement.
+Étapes :
+
+Identifier les tâches sans dépendances (tâches racines)
+Pour chaque tâche racine :
+
+Date début = Date début du projet
+Date fin = Date début + durée
+
+
+Pour chaque tâche dépendante :
+
+Date début = Date fin de la tâche parent + délai avant démarrage
+Date fin = Date début + durée
+
+
+Mettre à jour la date de fin du projet = max(dates de fin de toutes les tâches)
+
+#### Gestion des cas particuliers :
+
+Dépendances circulaires : détection et erreur
+Tâches orphelines : démarrent à la date de début du projet
+Calcul récursif pour gérer les chaînes de dépendances
 
 ---
 
