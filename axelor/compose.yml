@@ -1,8 +1,12 @@
 services:
-  db:
-    image: postgres:16
+  postgres:
+    image: postgres:14
+    container_name: postgres
     environment:
-      - POSTGRES_DB=axenr-db
-      - POSTGRES_PASSWORD=changeme
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_USER: postgres
+      POSTGRES_DB: axenr-db
+      POSTGRES_HOST_AUTH_METHOD: trust
     ports:
-      - "5432:5432"
+      # Remap host port to 5434 to avoid conflict with Laragon postgres on 5433
+      - "5434:5432"

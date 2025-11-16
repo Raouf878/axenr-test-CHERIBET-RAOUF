@@ -6,10 +6,11 @@
   <module name="axenr" package="fr.axenr.apps.db"/>
 
   <entity name="Project">
-    <string name="name"/>
+    <string name="name" required="true" namecolumn="true"/>
     <date name="startDate"/>
     <date name="endDate"/>
-    <one-to-many name="taskList" ref="fr.axenr.apps.db.Task" mappedBy="project"/>
+    <one-to-many name="taskList" ref="fr.axenr.apps.db.Task" mappedBy="project"
+      orphanRemoval="true"/>
   </entity>
 
 </domain-models>

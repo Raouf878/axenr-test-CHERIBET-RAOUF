@@ -6,8 +6,8 @@
   <module name="axenr" package="fr.axenr.apps.db"/>
 
   <entity name="Task">
-    <string name="name"/>
-    <decimal name="duration"/>
+    <string name="name" required="true" namecolumn="true"/>
+    <decimal name="duration" required="true"/>
     <decimal name="delayToStart"/>
     <date name="startDate"/>
     <date name="endDate"/>

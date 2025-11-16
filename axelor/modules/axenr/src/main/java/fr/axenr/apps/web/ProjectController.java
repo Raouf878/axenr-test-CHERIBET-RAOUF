@@ -3,10 +3,12 @@ package fr.axenr.apps.web;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import fr.axenr.apps.db.Project;
 import fr.axenr.apps.db.repo.ProjectRepository;
 import fr.axenr.apps.service.TaskPlanningService;
 
+@Singleton
 public class ProjectController {
 
   private final ProjectRepository projectRepository;
@@ -25,23 +27,26 @@ public class ProjectController {
    */
   public void computeDates(ActionRequest request, ActionResponse response) {
     try {
-      // Get project ID from context
-      Long projectId = (Long) request.getContext().get("id");
+      // Get project from context
+      Project project = request.getContext().asType(Project.class);
 
       // Validate project ID exists
-      if (projectId == null) {
+      if (project.getId() == null) {
         response.setError("Veuillez sauvegarder le projet avant de calculer les dates");
         return;
       }
 
-      // Load project from database
-      Project project = projectRepository.find(projectId);
+      // Reload project from database with all tasks
+      project = projectRepository.find(project.getId());
 
       // Validate project exists
       if (project == null) {
         response.setError("Projet introuvable");
         return;
       }
+
+      // Force initialization of task list
+      project.getTaskList().size();
 
       // Validate project has tasks
       if (project.getTaskList() == null || project.getTaskList().isEmpty()) {

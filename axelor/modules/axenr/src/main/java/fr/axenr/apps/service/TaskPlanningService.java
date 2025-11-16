@@ -1,12 +1,14 @@
 package fr.axenr.apps.service;
 
 import com.axelor.db.JPA;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
 import fr.axenr.apps.db.Project;
 import fr.axenr.apps.db.Task;
 import java.time.LocalDate;
 import java.util.*;
 
+@Singleton
 public class TaskPlanningService {
 
   @Transactional
@@ -16,24 +18,30 @@ public class TaskPlanningService {
       throw new IllegalArgumentException("Project cannot be null");
     }
 
-    if (project.getTaskList() == null || project.getTaskList().isEmpty()) {
-      throw new IllegalArgumentException("Project has no tasks");
-    }
-
     if (project.getStartDate() == null) {
       throw new IllegalArgumentException("Project start date is required");
     }
 
-    // Get list of tasks
-    List<Task> tasks = new ArrayList<>(project.getTaskList());
+    // Initialize task list (handle lazy loading)
+    List<Task> tasks = project.getTaskList();
+    if (tasks == null || tasks.isEmpty()) {
+      throw new IllegalArgumentException("Project has no tasks");
+    }
+
+    // Make a copy and clear existing dates for recalculation
+    List<Task> tasksCopy = new ArrayList<>(tasks);
+    for (Task task : tasksCopy) {
+      task.setStartDate(null);
+      task.setEndDate(null);
+    }
 
     // Detect circular dependencies
-    if (hasCircularDependency(tasks)) {
+    if (hasCircularDependency(tasksCopy)) {
       throw new IllegalStateException("Circular dependency detected in task dependencies");
     }
 
     // Sort tasks by dependencies (topological sort)
-    List<Task> sortedTasks = topologicalSort(tasks);
+    List<Task> sortedTasks = topologicalSort(tasksCopy);
 
     // Calculate dates for each task
     LocalDate projectEndDate = project.getStartDate();
